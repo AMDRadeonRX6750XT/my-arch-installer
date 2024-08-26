@@ -21,15 +21,15 @@ echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
 
 echo -n "arch-installed" > /etc/hostname
 
-pacman -S grub efibootmgr
+pacman -S grub efibootmgr --noconfirm
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
-pacman -S xfce4 lightdm
+pacman -S xfce4 lightdm --noconfirm
 
 systemctl enable lightdm.service
 
-pacman -Syu
+pacman -Syu --noconfirm
 
 rm /chroot.bash
 exit
