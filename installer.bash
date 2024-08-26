@@ -1,6 +1,5 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
-# zsh
 
 # loadkeys de-latin1
 
@@ -28,15 +27,15 @@ echo "Warning: only run this script in a Virtual Machine"
 
 
 
-read "?Press enter to install to /dev/sda, THIS WILL WIPE ALL DATA."
-read "?Are you sure?"
+read -p "Press enter to install to /dev/sda, THIS WILL WIPE ALL DATA."
+read -p "Are you sure?"
 clear
 
 wipefs --all /dev/sda
 
 parted -s -f -a optimal /dev/sda -- mklabel gpt \
 	mkpart primary fat32 0.0 1GiB \
-	mkpart primary linux-swap 1GiB 4GiB \
+	mkpart primary linux-swap 1GiB 5GiB \
 	mkpart primary ext4 5GiB -1 \
 	set 1 boot on
 
@@ -48,7 +47,7 @@ mount /dev/sda3 /mnt
 mount --mkdir /dev/sda1 /mnt/boot
 swapon /dev/sda2
 
-pacstrap -K /mnt base linux linux-firmware nano sudo
+pacstrap -K /mnt base linux linux-firmware nano sudo neofetch vi vim neovim
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -61,5 +60,7 @@ arch-chroot /mnt bash /chroot.bash
 #
 sync
 umount -R /mnt
+echo "Rebooting now."
+sleep 2
 reboot
 

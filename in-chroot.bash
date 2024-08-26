@@ -11,6 +11,8 @@ echo "IN CHROOT."
 echo "SET ROOT USER PASSWORD:"
 passwd
 
+
+
 ln -sf /usr/share/zoneinfo/US/Eastern /etc/localtime
 hwclock --systohc
 
@@ -25,11 +27,19 @@ pacman -S grub efibootmgr --noconfirm
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
-pacman -S xfce4 lightdm --noconfirm
+pacman -S xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs-update --noconfirm
 
 systemctl enable lightdm.service
 
+xfce4-setting-manager --gtk-theme Adwaita-dark # set dark theme
+
 pacman -Syu --noconfirm
+
+clear
+echo "IN CHROOT."
+useradd -m -G wheel,audio,video user
+echo "SET USER USER PASSWORD:"
+passwd user
 
 rm /chroot.bash
 exit
