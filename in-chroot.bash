@@ -1,6 +1,5 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
-# zsh
 
 # running in chroot
 
@@ -27,12 +26,12 @@ pacman -S grub efibootmgr --noconfirm
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
-pacman -S xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs neofetch wget git dhcpcd dhcpcd-ui --noconfirm
+pacman -S dhcpcd virtualbox-guest-utils xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs neofetch wget git --noconfirm
 
 systemctl enable dhcpcd.service
 systemctl enable lightdm.service
 
-xfce4-setting-manager --gtk-theme Adwaita-dark # set dark theme
+xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark" # set dark theme
 
 pacman -Syu --noconfirm
 
@@ -41,6 +40,10 @@ echo "IN CHROOT."
 useradd -m -G wheel,audio,video user
 echo "SET USER USER PASSWORD:"
 passwd user
+
+echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers
+
+# set font to ubuntus font?
 
 rm /chroot.bash
 exit
