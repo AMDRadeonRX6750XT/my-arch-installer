@@ -9,6 +9,8 @@
 
 # git clone <repo>
 
+# chmod +x *
+
 # /installer.bash
 
 ping 1.1.1.1 -W 5 -c 1
@@ -47,7 +49,7 @@ mount /dev/sda3 /mnt
 mount --mkdir /dev/sda1 /mnt/boot
 swapon /dev/sda2
 
-pacstrap -K /mnt base linux linux-firmware nano sudo neofetch vi vim neovim
+pacstrap -K /mnt base linux linux-firmware sudo nano vi vim neovim
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
