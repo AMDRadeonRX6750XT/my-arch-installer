@@ -4,6 +4,8 @@
 
 # loadkeys de-latin1
 
+# pacman -Sy
+
 # pacman -S git
 
 # git clone <repo>
