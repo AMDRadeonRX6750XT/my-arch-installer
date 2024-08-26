@@ -11,7 +11,7 @@ echo "IN CHROOT."
 echo "SET ROOT USER PASSWORD:"
 passwd
 
-
+pacman-key --init
 
 ln -sf /usr/share/zoneinfo/US/Eastern /etc/localtime
 hwclock --systohc

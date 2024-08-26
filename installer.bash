@@ -49,6 +49,8 @@ mount /dev/sda3 /mnt
 mount --mkdir /dev/sda1 /mnt/boot
 swapon /dev/sda2
 
+pacman-key --init
+
 pacstrap -K /mnt base linux linux-firmware sudo nano vi vim neovim
 
 genfstab -U /mnt >> /mnt/etc/fstab
