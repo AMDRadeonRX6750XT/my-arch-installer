@@ -32,7 +32,7 @@ pacman-key --init
 clear
 
 echo       "Warning: only run this script in a Virtual Machine"
-read -s -p "Press enter to install to /dev/sda, THIS WILL WIPE ALL DATA."
+read -s -p "Press enter to install to /dev/sda, THIS WILL WIPE ALL DATA." ; echo
 read -s -p "Are you sure?"
 clear
 
@@ -45,12 +45,14 @@ parted -s -f -a optimal /dev/sda -- mklabel gpt \
 	mkpart primary ext4       5GiB -1   \
 	set 1 boot on
 
-mkfs.fat -F 32 /dev/sda1  # efi
-mkswap         /dev/sda2  # swap
-mkfs.ext4      /dev/sda3  # root
+# 4.2.3 https://wiki.archlinux.org/title/GPT_fdisk
+mkfs.fat -F 32 /dev/sda1                                           # efi | TODO: set uuid ^
+mkswap         /dev/sda2 -U "0657FD6D-A4AB-43C4-84E5-0933C84B4F4F" # swap
+mkfs.ext4      /dev/sda3 -U "4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709" # root
 
-swaplabel --uuid "4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709" /dev/sda3 # 4.2.3 https://wiki.archlinux.org/title/GPT_fdisk
-swaplabel --label "linux-arch" /dev/sda3
+fatlabel /dev/sda1 "EFI"
+swaplabel --label "linux-swap" /dev/sda2
+e2label /dev/sda3 "linux-arch"
 
 mount /dev/sda3 /mnt
 mount --mkdir /dev/sda1 /mnt/boot
