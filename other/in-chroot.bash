@@ -50,9 +50,11 @@ $user_passwd
 !
 
 
-mkdir /home/user/Desktop/ # may be a bad idea but it works
 mv /first-login.bash /home/user/
-mv /runme.desktop    /home/user/Desktop/
+chown user: /runme.desktop
+mkdir /home/user/Desktop/ # bad idea but too lazy to fix (kinda makes /Desktop/ weird)
+mv /runme.desktop /home/user/Desktop/
+chown user: /home/user/Desktop/
 
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers #unsafe?
 

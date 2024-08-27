@@ -5,6 +5,7 @@
 cd ~
 
 #xfconf-query -c xfce4-panel -p /panels/panel-1/position -n -t string -s "p=4;x=0;y=0" # taskbar -> bottom
+xfconf-query -c xfwm4 -p /general/workspace_count -s 2
 xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark" # set dark theme
 
 
