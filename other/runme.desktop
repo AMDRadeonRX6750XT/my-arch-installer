@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/user/first-login.bash
+Name=RUN ME
+Icon=archlinux-logo
+Comment=Run this script after installing arch.
+Path=
+Terminal=false
+StartupNotify=false

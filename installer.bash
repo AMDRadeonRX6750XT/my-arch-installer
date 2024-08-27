@@ -63,8 +63,9 @@ swapon /dev/sda2
 pacstrap -K /mnt base linux linux-firmware sudo nano vi vim neovim
 genfstab -U /mnt >> /mnt/etc/fstab
 
-cp ./in-chroot.bash /mnt/chroot.bash
-cp ./first-login.bash /mnt/first-login.bash
+cp ./other/in-chroot.bash /mnt/chroot.bash
+cp ./other/first-login.bash /mnt/first-login.bash
+cp ./other/runme.desktop /mnt/runme.desktop
 
 arch-chroot /mnt bash /chroot.bash
 

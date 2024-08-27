@@ -32,7 +32,7 @@ echo -n "$hostname" > /etc/hostname
 
 
 
-pacman -S grub efibootmgr dhcpcd virtualbox-guest-utils xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs neofetch wget git --noconfirm
+pacman -S grub efibootmgr dhcpcd virtualbox-guest-utils xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs xorg-xmessage neofetch wget git --noconfirm
 #^xfce4-goodies
 
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
@@ -51,7 +51,8 @@ $user_passwd
 $user_passwd
 !
 
-mv /mnt/first-login.bash /home/user/
+mv /first-login.bash /home/user/
+mv /runme.desktop    /home/user/
 
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers #unsafe?
 
