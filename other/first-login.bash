@@ -1,5 +1,6 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
+
 # run on the first user login (from $HOME)
 cd ~
 
@@ -15,6 +16,12 @@ xfce4-keyboard-settings
 xfce4-settings-editor
 xfce4-settings-manager
 
+ping 1.1.1.1 -W 5 -c 1
+if [ $? -eq 0 ]; then
+	xmessage "Online."
+else
+	xmessage "Offline. Refer to the wiki to get a connection."
+fi
 
 xmessage "All done. Have fun"
 rm -f $HOME/first-login.bash

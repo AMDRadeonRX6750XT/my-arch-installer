@@ -3,16 +3,23 @@
 
 # loadkeys de-latin1
 
-# pacman -Sy
-
-# pacman -S git
+# pacman -Sy git
 
 # git clone <repo>
+
+# cd *
 
 # chmod +x *
 
 # /installer.bash
 
+
+## Initialization ##
+
+if [ ! -f /etc/arch-release ]; then
+	echo "This does not appear to be arch. Weird."
+	exit
+fi
 
 chmod +x *.bash
 chmod +x ./other/*.bash
@@ -31,13 +38,15 @@ else
 fi
 
 pacman-key --init
+pacman -Sy
 clear
 
-echo       "Warning: only run this script in a Virtual Machine"
+echo       "> Warning: only run this script in a Virtual Machine <"
 read -s -p "Press enter to install to /dev/sda, THIS WILL WIPE ALL DATA." ; echo
 read -s -p "Are you sure?"
 clear
 
+## Partitioning ##
 
 wipefs --all /dev/sda
 
@@ -60,9 +69,9 @@ mount /dev/sda3 /mnt
 mount --mkdir /dev/sda1 /mnt/boot
 swapon /dev/sda2
 
-#
+## Chroot ##
 
-pacstrap -K /mnt base linux linux-firmware sudo nano vi vim neovim
+pacstrap -K /mnt base linux linux-firmware sudo nano vi vim neovim # add base base-devel
 genfstab -U /mnt >> /mnt/etc/fstab
 
 cp ./other/in-chroot.bash /mnt/chroot.bash
@@ -74,7 +83,7 @@ echo "Left chroot."
 
 rm -f /mnt/chroot.bash
 
-#
+## Finalization ##
 
 sync
 umount -R /mnt

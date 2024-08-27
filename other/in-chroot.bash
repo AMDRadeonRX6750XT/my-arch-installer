@@ -5,9 +5,9 @@
 
 sleep 1
 clear
-echo "[CHROOT]"
 
-echo "Set root account password."
+echo "[CHROOT]"
+echo "> Set root account password. <"
 passwd
 read -r -p "User account password (will be displayed): " user_passwd
 read -p "Hostname: " hostname
@@ -49,6 +49,8 @@ $user_passwd
 $user_passwd
 !
 
+
+mkdir /home/user/Desktop/ # may be a bad idea but it works
 mv /first-login.bash /home/user/
 mv /runme.desktop    /home/user/Desktop/
 
