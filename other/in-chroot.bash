@@ -41,9 +41,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable dhcpcd.service
 systemctl enable lightdm.service
 
-
-xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark" # set dark theme (doesnt work in install?)
-xfce4-keyboard-settings --layout de-latin1 # ?
+#
 
 useradd -m -G wheel,audio,disk,floppy,input,kvm,optical,scanner,storage,video user
 passwd user <<!
@@ -52,7 +50,7 @@ $user_passwd
 !
 
 mv /first-login.bash /home/user/
-mv /runme.desktop    /home/user/
+mv /runme.desktop    /home/user/Desktop/
 
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers #unsafe?
 

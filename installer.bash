@@ -14,7 +14,9 @@
 # /installer.bash
 
 
-chmod +x .bash
+chmod +x *.bash
+chmod +x ./other/*.bash
+chmod +x ./other/*.desktop
 
 
 clear
@@ -68,6 +70,7 @@ cp ./other/first-login.bash /mnt/first-login.bash
 cp ./other/runme.desktop /mnt/runme.desktop
 
 arch-chroot /mnt bash /chroot.bash
+echo "Left chroot."
 
 rm -f /mnt/chroot.bash
 
