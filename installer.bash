@@ -75,8 +75,13 @@ pacstrap -K /mnt base linux linux-firmware sudo nano vi vim neovim # add base ba
 genfstab -U /mnt >> /mnt/etc/fstab
 
 cp ./other/in-chroot.bash /mnt/chroot.bash
-cp ./other/first-login.bash /mnt/first-login.bash
-cp ./other/runme.desktop /mnt/runme.desktop
+
+cp ./other/first-login.bash /mnt/
+
+cp ./other/runme.desktop /mnt/
+
+cp ./other/first-boot.bash /mnt/
+cp ./other/first-boot.service /mnt/etc/systemd/system/
 
 arch-chroot /mnt bash /chroot.bash
 echo "Left chroot."

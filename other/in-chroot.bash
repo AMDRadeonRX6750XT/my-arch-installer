@@ -41,6 +41,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable dhcpcd.service
 systemctl enable lightdm.service
 
+systemctl enable first-boot.service
+
 #
 
 useradd -m -G wheel,audio,disk,floppy,input,kvm,optical,scanner,storage,video user
@@ -52,9 +54,6 @@ $user_passwd
 
 mv /first-login.bash /home/user/
 chown user: /runme.desktop
-mkdir /home/user/Desktop/ # bad idea but too lazy to fix (kinda makes /Desktop/ weird)
-mv /runme.desktop /home/user/Desktop/
-chown user: /home/user/Desktop/
 
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers #unsafe?
 

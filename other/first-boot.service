@@ -1,0 +1,8 @@
+[Unit]
+Description=First boot
+
+[Service]
+ExecStart=/first-boot.bash
+
+[Install]
+WantedBy=multi-user.target
