@@ -6,19 +6,18 @@
 sleep 1
 clear
 
+
+root_passwd=$(cat /rt-pw)
+user_passwd=$(cat /us-pw)
+passwd <<!
+$root_passwd
+$root_passwd
+!
+
 echo "[CHROOT]"
-echo "> Set root account password. <"
-passwd
-read -r -p "User account password (will be displayed): " user_passwd
-read -p "Hostname: " hostname
-sleep 2
-clear
-echo "Installing now, the system will boot into arch automatically."
-read -s -r -p "Press enter to continue.."
-clear
 
 pacman-key --init
-pacman -Sy
+pacman -Syu
 
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
@@ -28,11 +27,9 @@ locale-gen
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
 
-echo -n "$hostname" > /etc/hostname
 
 
-
-pacman -S grub efibootmgr dhcpcd virtualbox-guest-utils xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs xorg-xmessage neofetch wget git --noconfirm
+pacman -S grub efibootmgr dhcpcd virtualbox-guest-utils xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs xorg-xmessage htop neofetch wget git --noconfirm
 #^xfce4-goodies
 
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
