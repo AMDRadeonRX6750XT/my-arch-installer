@@ -3,12 +3,11 @@
 
 # running in chroot
 
-sleep 1
 clear
-
 
 root_passwd=$(cat /rt-pw)
 user_passwd=$(cat /us-pw)
+rm -f /*-pw
 passwd <<!
 $root_passwd
 $root_passwd
@@ -31,6 +30,8 @@ echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
 
 pacman -S grub efibootmgr dhcpcd virtualbox-guest-utils xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs xorg-xmessage htop neofetch wget git --noconfirm
 #^xfce4-goodies
+
+# todo: choice of desktop environment (/window manager/none at all)
 
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -57,4 +58,8 @@ echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers #unsafe?
 # set font to ubuntus font or something
 
 pacman -Syu --noconfirm
+sleep 1
+clear
+neofetch
+sleep 2
 exit
