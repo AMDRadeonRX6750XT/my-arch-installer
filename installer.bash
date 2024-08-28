@@ -39,6 +39,7 @@ fi
 pacman-key --init
 pacman -Sy
 clear
+echo "Online." ; echo # ?
 
 echo       "> WARNING: only run this script in a Virtual Machine <"
 read -s -p "Press enter to install to /dev/sda, THIS WILL WIPE ALL DATA." ; echo
@@ -48,13 +49,9 @@ read -r -p "Root account password (will be displayed): " root_passwd
 read -r -p "User account password (will be displayed): " user_passwd
 read -p    "Hostname: " hostname
 
-echo "Installing now, the system will boot into arch automatically."
+echo          "Installing now, the system will boot into arch automatically."
 read -s -r -p "Press enter to continue.."
 clear
-
-echo -n "$root_passwd" > /mnt/rt-pw
-echo -n "$user_passwd" > /mnt/us-pw
-echo -n "$hostname"    > /mnt/etc/hostname
 
 
 ## Partitioning ##
@@ -84,6 +81,10 @@ swapon /dev/sda2
 
 pacstrap -K /mnt base linux linux-firmware sudo nano vi vim neovim # add base base-devel
 genfstab -U /mnt >> /mnt/etc/fstab
+
+echo -n "$root_passwd" > /mnt/rt-pw
+echo -n "$user_passwd" > /mnt/us-pw
+echo -n "$hostname"    > /mnt/etc/hostname
 
 cp ./other/in-chroot.bash /mnt/chroot.bash
 
