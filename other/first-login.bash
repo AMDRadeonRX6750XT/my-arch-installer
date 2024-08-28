@@ -1,7 +1,7 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 
-# run on the first user login (from $HOME)
+# run on the first user login (from $HOME) | ran by runme.desktop
 cd ~
 
 #xfconf-query -c xfce4-panel -p /panels/panel-1/position -n -t string -s "p=4;x=0;y=0" # taskbar -> bottom

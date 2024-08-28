@@ -3,7 +3,8 @@
 
 # running in chroot
 
-clear
+
+source /config.bash
 
 root_passwd=$(cat /rt-pw)
 user_passwd=$(cat /us-pw)
@@ -12,6 +13,8 @@ passwd <<!
 $root_passwd
 $root_passwd
 !
+
+clear
 
 echo "[CHROOT]"
 
@@ -28,16 +31,20 @@ echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
 
 
 
-pacman -S grub efibootmgr dhcpcd virtualbox-guest-utils xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs xorg-xmessage htop neofetch wget git --noconfirm
+pacman -S grub efibootmgr dhcpcd virtualbox-guest-utils htop neofetch wget git --noconfirm
 #^xfce4-goodies
-
-# todo: choice of desktop environment (/window manager/none at all)
-
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable dhcpcd.service
-systemctl enable lightdm.service
+<
+
+if [ "$de" == "xfce4" ]; then
+	pacman -S xfce4 lightdm lightdm-gtk-greeter xdg-user-dirs xorg-xmessage --noconfirm
+	systemctl enable lightdm.service
+else
+	touch /mnt/no-de
+fi
 
 systemctl enable first-boot.service
 
