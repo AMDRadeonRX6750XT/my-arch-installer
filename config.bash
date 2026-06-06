@@ -4,11 +4,11 @@
 # config for installer.bash
 
 
-
-drive=/dev/sda
+# $ lsblk
+drive=/dev/vda
 
 # none, xfce4
-de=none
+de=xfce4
 
 
 

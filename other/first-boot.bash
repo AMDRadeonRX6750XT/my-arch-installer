@@ -3,7 +3,7 @@
 
 # run on the first boot
 
-if [ -f "/no-de" ]; do
+if [ -f "/no-de" ]; then
 	rm -f /no-de
 	rm -f /runme.desktop
 else

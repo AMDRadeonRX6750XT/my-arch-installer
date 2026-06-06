@@ -2,7 +2,7 @@
 Description=First boot
 
 [Service]
-ExecStart=/first-boot.bash
+ExecStart=/bin/bash /first-boot.bash
 
 [Install]
 WantedBy=multi-user.target

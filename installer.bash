@@ -2,23 +2,36 @@
 # -*- coding: utf-8 -*-
 
 # loadkeys de-latin1
-
 # pacman -Sy git
-
-# git clone <repo>
-
+# git clone <repo.git>
 # cd *
-
 # chmod +x *
+# ./installer.bash
 
-# /installer.bash
-
+# TODO: make sure hostname and passwords are valid
+# TODO: "eject cd/usb" message
+# FIX: "resulting partition not properly aligned for best perfomance"
+# config: select: keymap, timezone, username, base-devel pkg
+# config: multi-select: browsers, virtual machine host(s), window manager AND/OR desktop environment, python
 
 ## Initialization ##
 
 if [ ! -f /etc/arch-release ]; then
-	echo "This does not appear to be arch. Weird."
+	echo "This does not appear to be arch. Can't install."
 	exit
+fi
+
+if [ ! -f $drive ]; then
+	echo "The configured drive does not exist (see config.bash). Can't install."
+	exit
+fi
+
+[ -d "/sys/firmware/efi" ] && uefi=1 || uefi=0
+if [ $uefi -eq 1 ]; then
+	echo "UEFI detected. Can't install." ; exit
+	# cat /sys/firmware/efi/fw_platform_size
+else
+	echo "BIOS" ; echo
 fi
 
 chmod +x *.bash
@@ -27,22 +40,16 @@ chmod +x ./other/*.desktop
 
 source ./config.bash
 
-clear
-
-ping 1.1.1.1 -W 5 -c 1
-if [ $? -eq 0 ]; then
-	#
-else
+#ping 1.1.1.1 -W 5 -c 1
+#pacman-key --init
+pacman -Sy
+if [ $? -eq 1 ]; then
 	echo "Offline, can't proceed."
 	echo "-> https://wiki.archlinux.org/title/Installation_guide"
 	exit
 fi
 
-pacman-key --init
-pacman -Sy
 clear
-echo "Online." ; echo # ?
-
 echo       "> WARNING: only run this script in a Virtual Machine <"
 read -s -p "Press enter to install to $drive, THIS WILL WIPE ALL DATA." ; echo
 read -s -p "Are you sure?"
@@ -60,18 +67,16 @@ clear
 
 wipefs --all $drive
 
-parted -s -f -a optimal $drive -- mklabel gpt \
-	mkpart primary fat32      0.0  1GiB \
-	mkpart primary linux-swap 1GiB 5GiB \
-	mkpart primary ext4       5GiB -1   \
-	set 1 boot on
+parted --script --fix --align=optimal $drive -- mklabel msdos \
+	mkpart primary fat32      2MiB  1GiB \
+	mkpart primary linux-swap 1GiB 5GiB  \
+	mkpart primary ext4       5GiB -1
 
-# 4.2.3 https://wiki.archlinux.org/title/GPT_fdisk
-mkfs.fat -F 32 $drive1                                           # efi | TODO: set uuid ^
-mkswap         $drive2 -U "0657FD6D-A4AB-43C4-84E5-0933C84B4F4F" # swap
-mkfs.ext4      $drive3 -U "4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709" # root
+mkfs.fat -F 32 "${drive}1" # efi | TODO: this partition shouldn't be required for BIOS install
+mkswap         "${drive}2" # swap
+mkfs.ext4      "${drive}3" # root
 
-fatlabel "${drive}1" "EFI"
+#fatlabel "${drive}1" "EFI" # $uefi
 swaplabel --label "linux-swap" "${drive}2"
 e2label "${drive}3" "linux-arch"
 
@@ -81,14 +86,14 @@ swapon "${drive}2"
 
 ## Chroot ##
 
-pacstrap -K /mnt base linux linux-firmware sudo nano vi vim neovim # add base base-devel
+pacstrap -K /mnt base linux linux-firmware sudo nano vi vim # optional: base-devel
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo -n "$root_passwd" > /mnt/rt-pw
 echo -n "$user_passwd" > /mnt/us-pw
 echo -n "$hostname"    > /mnt/etc/hostname
 
-cp ./config.bash /
+cp ./config.bash /mnt/
 
 cp ./other/in-chroot.bash /mnt/chroot.bash
 
@@ -109,5 +114,5 @@ rm -f /mnt/chroot.bash
 sync
 umount -R /mnt
 echo "Rebooting now."
-sleep 2
+sleep 5
 reboot now
