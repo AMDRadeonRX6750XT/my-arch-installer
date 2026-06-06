@@ -8,8 +8,8 @@ hostname=arch
 # $ lsblk
 drive=/dev/vda
 
-# none, xfce4
-de=xfce4
+# none, xfce4, i3, plasma, gnome
+de=gnome
 
 
 
