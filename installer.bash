@@ -8,8 +8,8 @@
 # chmod +x *
 # ./installer.bash
 
+# TODO: UEFI support
 # TODO: make sure hostname and passwords are valid
-# TODO: "eject cd/usb" message
 # FIX: "resulting partition not properly aligned for best perfomance"
 # config: select: keymap, timezone, username, base-devel pkg
 # config: multi-select: browsers, virtual machine host(s), window manager AND/OR desktop environment, python
@@ -52,14 +52,12 @@ fi
 clear
 echo       "> WARNING: only run this script in a Virtual Machine <"
 read -s -p "Press enter to install to $drive, THIS WILL WIPE ALL DATA." ; echo
-read -s -p "Are you sure?"
+read -s -p "Are you sure? ALL YOUR DATA WILL BE DELETED."
 clear
-read -r -p "Root account password (will be displayed): " root_passwd
-read -r -p "User account password (will be displayed): " user_passwd
-read -p    "Hostname: " hostname
-
-echo          "Installing now, the system will boot into arch automatically."
-read -s -r -p "Press enter to continue.."
+read -s -r -p "Root account password: " root_passwd ; echo
+read -s -r -p "User account password: " user_passwd ; echo
+echo       "Installing now, the system will reboot into Arch automatically."
+read -s -p "Press enter to continue.."
 clear
 
 
@@ -113,6 +111,16 @@ rm -f /mnt/chroot.bash
 
 sync
 umount -R /mnt
+sleep 2
+clear
+for x in {1..10}; do
+	sleep 0.5
+	for x in {1..10}; do
+		echo "Eject the installation medium!"
+	done
+	sleep 0.5
+	clear
+done
 echo "Rebooting now."
 sleep 5
 reboot now

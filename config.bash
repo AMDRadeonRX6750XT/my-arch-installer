@@ -1,14 +1,17 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 
-# config for installer.bash
+# configuration for installer.bash
 
+hostname=arch
 
 # $ lsblk
 drive=/dev/vda
 
 # none, xfce4
 de=xfce4
+
+
 
 
 
